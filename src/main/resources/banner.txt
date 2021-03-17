@@ -1,0 +1,1 @@
+${AnsiColor.CYAN} Training Generator Backend

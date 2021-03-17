@@ -1,0 +1,11 @@
+spring:
+  banner:
+    location: banner.txt
+  liquibase:
+    change-log: classpath:db/changelog/changelog.yaml
+  datasource:
+    url: jdbc:mariadb://localhost:3306/training_database
+    username: root
+    password: 123456
+  jpa:
+    generate-ddl: true
