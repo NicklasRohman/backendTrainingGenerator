@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import se.nicklasrohman.backendTrainingGenerator.controller.ExercisesController;
+import se.nicklasrohman.backendTrainingGenerator.entity.Exercises;
 import se.nicklasrohman.backendTrainingGenerator.service.ExercisesService;
 
 import java.util.List;

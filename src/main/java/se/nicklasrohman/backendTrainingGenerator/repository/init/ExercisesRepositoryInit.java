@@ -1,7 +1,7 @@
 package se.nicklasrohman.backendTrainingGenerator.repository.init;
 
 import org.springframework.stereotype.Repository;
-import se.nicklasrohman.backendTrainingGenerator.controller.init.Exercises;
+import se.nicklasrohman.backendTrainingGenerator.entity.Exercises;
 import se.nicklasrohman.backendTrainingGenerator.repository.ExercisesRepository;
 
 import java.util.ArrayList;
@@ -14,9 +14,10 @@ public class ExercisesRepositoryInit implements ExercisesRepository {
     public List<Exercises> getAllExercises() {
 
         Exercises exercises = new Exercises();
-        exercises.setId(1);
-        exercises.setName("name");
-        exercises.setImagePath("imagePath");
+        exercises.setExercise_id(1);
+        exercises.setExercise_name("name");
+        exercises.setDifficult_level(5);
+        exercises.setEstimated_time(10.5);
         exercises.setVideoPath("videoPath");
 
         List<Exercises> listOfExercises = new ArrayList<>();

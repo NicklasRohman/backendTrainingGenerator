@@ -1,6 +1,6 @@
 package se.nicklasrohman.backendTrainingGenerator.controller;
 
-import se.nicklasrohman.backendTrainingGenerator.controller.init.Exercises;
+import se.nicklasrohman.backendTrainingGenerator.entity.Exercises;
 
 import java.util.List;
 
