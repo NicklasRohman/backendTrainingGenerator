@@ -15,13 +15,14 @@ public class ExercisesServiceInit implements ExercisesService {
     @Autowired
     ExercisesRepository exercisesRepository;
 
+    public ExercisesServiceInit(ExercisesRepository exercisesRepository) {
+        this.exercisesRepository = exercisesRepository;
+    }
 
     @Override
     public List<Exercises> getAllExercises() {
 
-        List<Exercises> allExercises = exercisesRepository.getAllExercises();
-
-        return allExercises;
+        return exercisesRepository.findAll();
     }
 
 }

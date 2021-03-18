@@ -1,11 +1,9 @@
 package se.nicklasrohman.backendTrainingGenerator.repository;
 
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import se.nicklasrohman.backendTrainingGenerator.entity.Exercises;
 
-import java.util.List;
+public interface ExercisesRepository extends JpaRepository<Exercises, Integer>, ExercisesRepositoryCustom {
 
-public interface ExercisesRepository {
-
-    List<Exercises> getAllExercises();
 }

@@ -3,15 +3,17 @@ package se.nicklasrohman.backendTrainingGenerator.entity;
 import lombok.Data;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 
 @Data
 @Entity
 public class Exercises {
 
-    int exercise_id;
-    String exercise_name;
-    int difficult_level;
-    double estimated_time;
+    @Id
+    int exerciseId;
+    String exerciseName;
+    int difficultLevel;
+    double estimatedTime;
     String videoPath;
 
 }
