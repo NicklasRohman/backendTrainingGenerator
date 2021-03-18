@@ -15,10 +15,6 @@ public class ExercisesControllerInit implements ExercisesController {
     @Autowired
     ExercisesService exercisesService;
 
-    public ExercisesControllerInit(ExercisesService exercisesService) {
-        this.exercisesService = exercisesService;
-    }
-
     @Override
     @GetMapping("/exercises")
     public List<Exercises> getAllExercises() {
