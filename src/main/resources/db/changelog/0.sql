@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS training_database.training(
     exercise_id int UNSIGNED AUTO_INCREMENT NOT NULL,
     exercise_name varchar(255) NOT NULL,
     difficult_level int(10) NOT NULL DEFAULT 1,
-    estimated_time date,
+    estimated_time double,
     video_path varchar(255),
     PRIMARY KEY (exercise_id)
 )
