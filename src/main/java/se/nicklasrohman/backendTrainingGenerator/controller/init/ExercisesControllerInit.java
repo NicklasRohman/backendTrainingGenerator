@@ -1,11 +1,13 @@
 package se.nicklasrohman.backendTrainingGenerator.controller.init;
 
+import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import se.nicklasrohman.backendTrainingGenerator.controller.ExercisesController;
-import se.nicklasrohman.backendTrainingGenerator.entity.Exercises;
 import se.nicklasrohman.backendTrainingGenerator.service.ExercisesService;
+import se.nicklasrohman.backendTrainingGenerator.service.entity.ExercisesEntity;
 
 import java.util.List;
 
@@ -16,12 +18,26 @@ public class ExercisesControllerInit implements ExercisesController {
     ExercisesService exercisesService;
 
     @Override
-    @GetMapping("/exercises")
-    public List<Exercises> getAllExercises() {
+    public ResponseEntity<Object> getAllExercises() throws JSONException {
+        List<ExercisesEntity> test = exercisesService.getAllExercises();
 
-        List<Exercises> allExercises = exercisesService.getAllExercises();
+        return new ResponseEntity<>(test, HttpStatus.OK);
+    }
 
-        return allExercises;
+    @Override
+    public void getExerciseById() {
+    }
+
+    @Override
+    public void addNewExercise() {
+    }
+
+    @Override
+    public void updateExercise() {
+    }
+
+    @Override
+    public void deleteExercise() {
     }
 
 }

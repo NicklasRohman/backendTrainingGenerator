@@ -1,4 +1,4 @@
-package se.nicklasrohman.backendTrainingGenerator.entity;
+package se.nicklasrohman.backendTrainingGenerator.service.entity;
 
 import lombok.Data;
 
@@ -7,7 +7,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @Table(name = "training")
-public class Exercises {
+public class ExercisesEntity {
 
     @Id
     @Column(name = "exercise_id")
