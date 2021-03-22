@@ -19,12 +19,16 @@ public interface ExercisesController {
             @RequestParam("estimatedTime") double estimatedTime,
             @RequestParam("videoPath") String videoPath);
 
-    @PutMapping("/exercise{id}")
-    ResponseEntity<Object> updateExercise(@PathVariable int id,
+    @PutMapping("/exercise/{id}")
+    ResponseEntity<Object> updateExercise(
+            @PathVariable int id,
             @RequestParam("exerciseName") String exerciseName,
             @RequestParam("difficultLevel") int difficultLevel,
             @RequestParam("estimatedTime") double estimatedTime,
-            @RequestParam("videoPath") String videoPath);
+            @RequestParam("videoPath") String videoPath
+
+    );
+
 
     @DeleteMapping("/exercise/{id}")
     ResponseEntity<Object> deleteExercise(@PathVariable int id);

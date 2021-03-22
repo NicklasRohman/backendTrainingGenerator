@@ -50,10 +50,13 @@ public class ExercisesControllerInit implements ExercisesController {
     @Override
     public ResponseEntity<Object> updateExercise(
             @PathVariable("id") int id,
+
             @RequestParam("exerciseName") String exerciseName,
             @RequestParam("difficultLevel") int difficultLevel,
             @RequestParam("estimatedTime") double estimatedTime,
-            @RequestParam("videoPath") String videoPath) {
+            @RequestParam("videoPath") String videoPath
+
+            ) {
 
         ExerciseDto exerciseDto = new ExerciseDto();
         exerciseDto.setId(id);
@@ -63,7 +66,9 @@ public class ExercisesControllerInit implements ExercisesController {
         exerciseDto.setVideoPath(videoPath);
 
         return exercisesService.updateExercise(exerciseDto);
+
     }
+
 
     @Override
     public ResponseEntity<Object> deleteExercise(@PathVariable int id) {
