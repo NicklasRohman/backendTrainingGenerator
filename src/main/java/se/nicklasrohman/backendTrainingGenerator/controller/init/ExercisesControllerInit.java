@@ -3,6 +3,7 @@ package se.nicklasrohman.backendTrainingGenerator.controller.init;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import se.nicklasrohman.backendTrainingGenerator.controller.ExercisesController;
@@ -26,7 +27,7 @@ public class ExercisesControllerInit implements ExercisesController {
     }
 
     @Override
-    public ResponseEntity<ExerciseDto> getExerciseById(int id) {
+    public ResponseEntity<ExerciseDto> getExerciseById(@PathVariable int id) {
         return exercisesService.getExercisesById(id);
     }
 
@@ -42,7 +43,7 @@ public class ExercisesControllerInit implements ExercisesController {
     }
 
     @Override
-    public ResponseEntity<Object> deleteExercise(int id) {
+    public ResponseEntity<Object> deleteExercise(@PathVariable int id) {
         return exercisesService.deleteExercise(id);
     }
 

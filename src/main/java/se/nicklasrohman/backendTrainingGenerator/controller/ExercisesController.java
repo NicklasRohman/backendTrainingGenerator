@@ -9,16 +9,16 @@ public interface ExercisesController {
     @GetMapping("/exercises")
     ResponseEntity<Object> getAllExercises();
 
-    @GetMapping("/exercises/{id}")
+    @GetMapping("/exercise/{id}")
     ResponseEntity<ExerciseDto> getExerciseById(int id);
 
-    @PostMapping("/exercises")
+    @PostMapping("/exercise")
     ResponseEntity<Object> addNewExercise(@RequestBody ExerciseDto exerciseDto);
 
-    @PutMapping("/exercises{id}")
+    @PutMapping("/exercise{id}")
     ResponseEntity<Object> updateExercise(@RequestBody ExerciseDto exerciseDto);
 
-    @DeleteMapping("/exercises/{id}")
+    @DeleteMapping("/exercise/{id}")
     ResponseEntity<Object> deleteExercise(int id);
 
 }
