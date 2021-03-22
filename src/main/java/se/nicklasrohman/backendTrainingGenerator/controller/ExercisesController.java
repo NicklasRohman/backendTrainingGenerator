@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import se.nicklasrohman.backendTrainingGenerator.dto.ExerciseDto;
 
 public interface ExercisesController {
 
@@ -13,7 +14,7 @@ public interface ExercisesController {
     ResponseEntity<Object> getAllExercises() throws JSONException;
 
     @GetMapping("/exercises/{id}")
-    void getExerciseById();
+    ResponseEntity<ExerciseDto> getExerciseById(int id);
 
     @PostMapping("/exercises")
     void addNewExercise();
@@ -22,6 +23,6 @@ public interface ExercisesController {
     void updateExercise();
 
     @DeleteMapping("/exercises/{id}")
-    void deleteExercise();
+    void deleteExercise(int id);
 
 }

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 import se.nicklasrohman.backendTrainingGenerator.controller.ExercisesController;
+import se.nicklasrohman.backendTrainingGenerator.dto.ExerciseDto;
 import se.nicklasrohman.backendTrainingGenerator.service.ExercisesService;
 import se.nicklasrohman.backendTrainingGenerator.service.entity.ExercisesEntity;
 
@@ -19,13 +20,15 @@ public class ExercisesControllerInit implements ExercisesController {
 
     @Override
     public ResponseEntity<Object> getAllExercises() throws JSONException {
-        List<ExercisesEntity> test = exercisesService.getAllExercises();
+        List<ExercisesEntity> exercisesEntityList = exercisesService.getAllExercises();
 
-        return new ResponseEntity<>(test, HttpStatus.OK);
+        return new ResponseEntity<>(exercisesEntityList, HttpStatus.OK);
     }
 
     @Override
-    public void getExerciseById() {
+    public ResponseEntity<ExerciseDto> getExerciseById(int id) {
+
+        return exercisesService.getExercisesById(id);
     }
 
     @Override
@@ -37,7 +40,7 @@ public class ExercisesControllerInit implements ExercisesController {
     }
 
     @Override
-    public void deleteExercise() {
+    public void deleteExercise(int id) {
     }
 
 }

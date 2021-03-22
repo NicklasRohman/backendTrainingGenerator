@@ -5,15 +5,13 @@ import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
-import java.math.BigDecimal;
-
 @Data
 @RequiredArgsConstructor
 @JsonNaming(PropertyNamingStrategy.SnakeCaseStrategy.class)
 public class ExerciseDto {
-
+    int id;
     String exerciseName;
     int difficultLevel;
-    BigDecimal estimatedTime;
+    double estimatedTime;
     String videoPath;
 }
