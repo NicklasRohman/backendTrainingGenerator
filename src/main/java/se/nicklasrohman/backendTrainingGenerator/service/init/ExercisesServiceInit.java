@@ -45,7 +45,7 @@ public class ExercisesServiceInit implements ExercisesService {
     }
 
     @Override
-    public void addExercise(ExerciseDto exerciseDto) {
+    public ResponseEntity<Object> addExercise(ExerciseDto exerciseDto) {
 
         ExercisesEntity exercisesEntity = new ExercisesEntity();
         exercisesEntity.setExerciseName(exerciseDto.getExerciseName());
@@ -53,7 +53,13 @@ public class ExercisesServiceInit implements ExercisesService {
         exercisesEntity.setEstimatedTime(exerciseDto.getEstimatedTime());
         exercisesEntity.setVideoPath(exerciseDto.getVideoPath());
 
+        try {
         exercisesRepository.save(exercisesEntity);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(e,HttpStatus.NOT_IMPLEMENTED);
+        }
     }
 
     @Override

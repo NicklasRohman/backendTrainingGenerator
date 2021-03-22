@@ -4,6 +4,7 @@ import org.json.JSONException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import se.nicklasrohman.backendTrainingGenerator.controller.ExercisesController;
 import se.nicklasrohman.backendTrainingGenerator.dto.ExerciseDto;
@@ -32,15 +33,20 @@ public class ExercisesControllerInit implements ExercisesController {
     }
 
     @Override
-    public void addNewExercise() {
+    public ResponseEntity<Object> addNewExercise(@RequestBody ExerciseDto exerciseDto) {
+
+        return exercisesService.addExercise(exerciseDto);
+
     }
 
     @Override
-    public void updateExercise() {
+    public ResponseEntity<Object> updateExercise() {
+        return null;
     }
 
     @Override
-    public void deleteExercise(int id) {
+    public ResponseEntity<Object> deleteExercise(int id) {
+        return null;
     }
 
 }

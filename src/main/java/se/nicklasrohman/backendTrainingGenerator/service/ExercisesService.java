@@ -13,7 +13,7 @@ public interface ExercisesService {
 
     ResponseEntity<ExerciseDto> getExercisesById(int id);
 
-    void addExercise(ExerciseDto exerciseDto);
+    ResponseEntity<Object> addExercise(ExerciseDto exerciseDto);
 
     void updateExercise(ExerciseDto exerciseDto);
 
