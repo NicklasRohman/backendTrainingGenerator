@@ -15,7 +15,7 @@ public interface ExercisesService {
 
     ResponseEntity<Object> addExercise(ExerciseDto exerciseDto);
 
-    void updateExercise(ExerciseDto exerciseDto);
+    ResponseEntity<Object> updateExercise(ExerciseDto exerciseDto);
 
-    void deleteExercise(int id);
+    ResponseEntity<Object> deleteExercise(int id);
 }

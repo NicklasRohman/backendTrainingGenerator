@@ -1,6 +1,5 @@
 package se.nicklasrohman.backendTrainingGenerator.controller;
 
-import org.json.JSONException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import se.nicklasrohman.backendTrainingGenerator.dto.ExerciseDto;
@@ -8,7 +7,7 @@ import se.nicklasrohman.backendTrainingGenerator.dto.ExerciseDto;
 public interface ExercisesController {
 
     @GetMapping("/exercises")
-    ResponseEntity<Object> getAllExercises() throws JSONException;
+    ResponseEntity<Object> getAllExercises();
 
     @GetMapping("/exercises/{id}")
     ResponseEntity<ExerciseDto> getExerciseById(int id);
@@ -17,7 +16,7 @@ public interface ExercisesController {
     ResponseEntity<Object> addNewExercise(@RequestBody ExerciseDto exerciseDto);
 
     @PutMapping("/exercises{id}")
-    ResponseEntity<Object> updateExercise();
+    ResponseEntity<Object> updateExercise(@RequestBody ExerciseDto exerciseDto);
 
     @DeleteMapping("/exercises/{id}")
     ResponseEntity<Object> deleteExercise(int id);

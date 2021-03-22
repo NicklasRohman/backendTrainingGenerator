@@ -63,19 +63,32 @@ public class ExercisesServiceInit implements ExercisesService {
     }
 
     @Override
-    public void updateExercise(ExerciseDto exerciseDto) {
+    public ResponseEntity<Object> updateExercise(ExerciseDto exerciseDto) {
         ExercisesEntity exercisesToUpdate = exercisesRepository.getOne(exerciseDto.getId());
         exercisesToUpdate.setExerciseName(exerciseDto.getExerciseName());
         exercisesToUpdate.setDifficultLevel(exerciseDto.getDifficultLevel());
         exercisesToUpdate.setEstimatedTime(exerciseDto.getEstimatedTime());
         exercisesToUpdate.setVideoPath(exerciseDto.getVideoPath());
 
-        exercisesRepository.save(exercisesToUpdate);
+        try {
+            exercisesRepository.save(exercisesToUpdate);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(e,HttpStatus.NOT_MODIFIED);
+        }
     }
 
     @Override
-    public void deleteExercise(int id) {
-        exercisesRepository.deleteById(id);
+    public ResponseEntity<Object> deleteExercise(int id) {
+
+        try {
+            exercisesRepository.deleteById(id);
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(e,HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
 }
