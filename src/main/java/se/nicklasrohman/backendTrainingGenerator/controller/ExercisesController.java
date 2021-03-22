@@ -13,12 +13,20 @@ public interface ExercisesController {
     ResponseEntity<ExerciseDto> getExerciseById(int id);
 
     @PostMapping("/exercise")
-    ResponseEntity<Object> addNewExercise(@RequestBody ExerciseDto exerciseDto);
+    ResponseEntity<Object> addNewExercise(
+            @RequestParam("exerciseName") String exerciseName,
+            @RequestParam("difficultLevel") int difficultLevel,
+            @RequestParam("estimatedTime") double estimatedTime,
+            @RequestParam("videoPath") String videoPath);
 
     @PutMapping("/exercise{id}")
-    ResponseEntity<Object> updateExercise(@RequestBody ExerciseDto exerciseDto);
+    ResponseEntity<Object> updateExercise(@PathVariable int id,
+            @RequestParam("exerciseName") String exerciseName,
+            @RequestParam("difficultLevel") int difficultLevel,
+            @RequestParam("estimatedTime") double estimatedTime,
+            @RequestParam("videoPath") String videoPath);
 
     @DeleteMapping("/exercise/{id}")
-    ResponseEntity<Object> deleteExercise(int id);
+    ResponseEntity<Object> deleteExercise(@PathVariable int id);
 
 }

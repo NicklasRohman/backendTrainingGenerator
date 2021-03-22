@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import se.nicklasrohman.backendTrainingGenerator.controller.ExercisesController;
 import se.nicklasrohman.backendTrainingGenerator.dto.ExerciseDto;
@@ -32,13 +32,36 @@ public class ExercisesControllerInit implements ExercisesController {
     }
 
     @Override
-    public ResponseEntity<Object> addNewExercise(@RequestBody ExerciseDto exerciseDto) {
-        return exercisesService.addExercise(exerciseDto);
+    public ResponseEntity<Object> addNewExercise(
+            @RequestParam("exerciseName") String exerciseName,
+            @RequestParam("difficultLevel") int difficultLevel,
+            @RequestParam("estimatedTime") double estimatedTime,
+            @RequestParam("videoPath") String videoPath) {
 
+        ExerciseDto exerciseDto = new ExerciseDto();
+        exerciseDto.setExerciseName(exerciseName);
+        exerciseDto.setDifficultLevel(difficultLevel);
+        exerciseDto.setEstimatedTime(estimatedTime);
+        exerciseDto.setVideoPath(videoPath);
+
+        return exercisesService.addExercise(exerciseDto);
     }
 
     @Override
-    public ResponseEntity<Object> updateExercise(@RequestBody ExerciseDto exerciseDto) {
+    public ResponseEntity<Object> updateExercise(
+            @PathVariable("id") int id,
+            @RequestParam("exerciseName") String exerciseName,
+            @RequestParam("difficultLevel") int difficultLevel,
+            @RequestParam("estimatedTime") double estimatedTime,
+            @RequestParam("videoPath") String videoPath) {
+
+        ExerciseDto exerciseDto = new ExerciseDto();
+        exerciseDto.setId(id);
+        exerciseDto.setExerciseName(exerciseName);
+        exerciseDto.setDifficultLevel(difficultLevel);
+        exerciseDto.setEstimatedTime(estimatedTime);
+        exerciseDto.setVideoPath(videoPath);
+
         return exercisesService.updateExercise(exerciseDto);
     }
 
