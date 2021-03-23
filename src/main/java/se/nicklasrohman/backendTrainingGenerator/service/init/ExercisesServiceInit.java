@@ -41,7 +41,6 @@ public class ExercisesServiceInit implements ExercisesService {
         exerciseDto.setVideoPath(exercisesEntityOptional.get().getVideoPath());
 
         return new ResponseEntity<>(exerciseDto, HttpStatus.OK);
-
     }
 
     @Override
