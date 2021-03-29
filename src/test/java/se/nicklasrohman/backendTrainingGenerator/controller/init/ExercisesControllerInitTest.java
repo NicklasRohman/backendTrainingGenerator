@@ -9,9 +9,8 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import se.nicklasrohman.backendTrainingGenerator.common.UtilTestFunctions;
-import se.nicklasrohman.backendTrainingGenerator.dto.ExerciseDto;
+import se.nicklasrohman.backendTrainingGenerator.entity.ExercisesEntity;
 import se.nicklasrohman.backendTrainingGenerator.service.ExercisesService;
-import se.nicklasrohman.backendTrainingGenerator.service.entity.ExercisesEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,31 +47,34 @@ class ExercisesControllerInitTest {
     @Test
     void testGetExerciseById() {
 
-        ExerciseDto exerciseDto = UtilTestFunctions.createExerciseDto();
+        ExercisesEntity exercisesEntity = UtilTestFunctions.createExerciseEntity();
 
-        when(exercisesService.getExercisesById(1)).thenReturn( new ResponseEntity<>(exerciseDto, HttpStatus.OK));
+        when(exercisesService.getExercisesById(1)).thenReturn( new ResponseEntity<>(exercisesEntity, HttpStatus.OK));
 
-        ResponseEntity<Object> expected = new ResponseEntity<>(exerciseDto, HttpStatus.OK);
+        ResponseEntity<Object> expected = new ResponseEntity<>(exercisesEntity, HttpStatus.OK);
 
-        ResponseEntity<ExerciseDto> result = exercisesControllerInit.getExerciseById(1);
+        ResponseEntity<ExercisesEntity> result = exercisesControllerInit.getExerciseById(1);
         Assertions.assertEquals(expected, result);
     }
 
     @Test
     void testAddNewExercise() {
-        when(exercisesService.addExercise(any())).thenReturn(new ResponseEntity<>(HttpStatus.OK));
+        when(exercisesService.createExercise(any())).thenReturn(new ResponseEntity<>(HttpStatus.OK));
 
         ResponseEntity<Object> expected = new ResponseEntity<>(HttpStatus.OK);
 
-        ResponseEntity<Object> result = exercisesControllerInit.addNewExercise("exerciseName", 0, 0d, "videoPath");
+        ExercisesEntity exercisesEntity = UtilTestFunctions.createExerciseEntity();
+
+        ResponseEntity<Object> result = exercisesControllerInit.createNewExercise(exercisesEntity);
         Assertions.assertEquals(expected, result);
     }
 
     @Test
     void testUpdateExercise() {
-        when(exercisesService.updateExercise(any())).thenReturn(new ResponseEntity<>(HttpStatus.OK));
+        ExercisesEntity exercisesEntity = UtilTestFunctions.createExerciseEntity();
+        when(exercisesService.updateExercise(any(), exercisesEntity)).thenReturn(new ResponseEntity<>(HttpStatus.OK));
         ResponseEntity<Object> expected = new ResponseEntity<>(HttpStatus.OK);
-        ResponseEntity<Object> result = exercisesControllerInit.updateExercise(0, "exerciseName", 0, 0d, "videoPath");
+        ResponseEntity<Object> result = exercisesControllerInit.updateExercise(0, exercisesEntity);
         Assertions.assertEquals(expected, result);
     }
 

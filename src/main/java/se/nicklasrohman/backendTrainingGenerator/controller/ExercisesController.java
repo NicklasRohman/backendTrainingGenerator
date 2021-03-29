@@ -2,7 +2,9 @@ package se.nicklasrohman.backendTrainingGenerator.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.nicklasrohman.backendTrainingGenerator.dto.ExerciseDto;
+import se.nicklasrohman.backendTrainingGenerator.entity.ExercisesEntity;
+
+import java.util.List;
 
 @RequestMapping("/exercise")
 public interface ExercisesController {
@@ -11,24 +13,27 @@ public interface ExercisesController {
     ResponseEntity<Object> getAllExercises();
 
     @GetMapping("/{id}")
-    ResponseEntity<ExerciseDto> getExerciseById(int id);
+    ResponseEntity<ExercisesEntity> getExerciseById(@PathVariable int id);
+
+    @GetMapping("/search/{exerciseName}")
+    ResponseEntity<List<ExercisesEntity>> getExerciseByName(@PathVariable String exerciseName);
 
     @PostMapping("/create")
-    ResponseEntity<Object> addNewExercise(
-            @RequestParam("exerciseName") String exerciseName,
-            @RequestParam("difficultLevel") int difficultLevel,
-            @RequestParam("estimatedTime") double estimatedTime,
-            @RequestParam("videoPath") String videoPath);
+    ResponseEntity<Object> createNewExercise(@RequestBody ExercisesEntity exercisesEntity);
 
     @PutMapping("/update/{id}")
     ResponseEntity<Object> updateExercise(
             @PathVariable int id,
-            @RequestParam("exerciseName") String exerciseName,
-            @RequestParam("difficultLevel") int difficultLevel,
-            @RequestParam("estimatedTime") double estimatedTime,
-            @RequestParam("videoPath") String videoPath);
+            @RequestBody ExercisesEntity exercisesEntity);
 
     @DeleteMapping("/delete/{id}")
     ResponseEntity<Object> deleteExercise(@PathVariable int id);
 
+    @GetMapping("/random/")
+    ResponseEntity<Object> getRandomExercises(
+            @RequestParam int numberOfExercises,
+            @RequestParam int minDifficulty,
+            @RequestParam int maxDifficulty,
+            @RequestParam double minEstimatedTime,
+            @RequestParam double maxEstimatedTime);
 }

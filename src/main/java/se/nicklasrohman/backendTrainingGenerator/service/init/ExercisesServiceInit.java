@@ -4,13 +4,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import se.nicklasrohman.backendTrainingGenerator.dto.ExerciseDto;
+import se.nicklasrohman.backendTrainingGenerator.entity.ExercisesEntity;
+import se.nicklasrohman.backendTrainingGenerator.entity.RandomExercisesEntityCriteria;
 import se.nicklasrohman.backendTrainingGenerator.repository.ExercisesRepository;
 import se.nicklasrohman.backendTrainingGenerator.service.ExercisesService;
-import se.nicklasrohman.backendTrainingGenerator.service.entity.ExercisesEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.ThreadLocalRandom;
 
 
 @Service
@@ -24,33 +26,20 @@ public class ExercisesServiceInit implements ExercisesService {
         return exercisesRepository.findAll();
     }
 
+    List<Integer> usedRandomNumbers = new ArrayList<>();
+
     @Override
-    public ResponseEntity<ExerciseDto> getExercisesById(int id) {
+    public ResponseEntity<ExercisesEntity> getExercisesById(int id) {
 
         Optional<ExercisesEntity> exercisesEntityOptional = exercisesRepository.findById(id);
 
-        if (exercisesEntityOptional.isEmpty()){
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }
-
-        ExerciseDto exerciseDto = new ExerciseDto();
-        exerciseDto.setId(exercisesEntityOptional.get().getExerciseId());
-        exerciseDto.setExerciseName(exercisesEntityOptional.get().getExerciseName());
-        exerciseDto.setDifficultLevel(exercisesEntityOptional.get().getDifficultLevel());
-        exerciseDto.setEstimatedTime(exercisesEntityOptional.get().getEstimatedTime());
-        exerciseDto.setVideoPath(exercisesEntityOptional.get().getVideoPath());
-
-        return new ResponseEntity<>(exerciseDto, HttpStatus.OK);
+        return exercisesEntityOptional.map(exercisesEntity ->
+                new ResponseEntity<>(exercisesEntity, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
     @Override
-    public ResponseEntity<Object> addExercise(ExerciseDto exerciseDto) {
-
-        ExercisesEntity exercisesEntity = new ExercisesEntity();
-        exercisesEntity.setExerciseName(exerciseDto.getExerciseName());
-        exercisesEntity.setDifficultLevel(exerciseDto.getDifficultLevel());
-        exercisesEntity.setEstimatedTime(exerciseDto.getEstimatedTime());
-        exercisesEntity.setVideoPath(exerciseDto.getVideoPath());
+    public ResponseEntity<Object> createExercise(ExercisesEntity exercisesEntity) {
 
         try {
         exercisesRepository.save(exercisesEntity);
@@ -62,12 +51,13 @@ public class ExercisesServiceInit implements ExercisesService {
     }
 
     @Override
-    public ResponseEntity<Object> updateExercise(ExerciseDto exerciseDto) {
-        ExercisesEntity exercisesToUpdate = exercisesRepository.getOne(exerciseDto.getId());
-        exercisesToUpdate.setExerciseName(exerciseDto.getExerciseName());
-        exercisesToUpdate.setDifficultLevel(exerciseDto.getDifficultLevel());
-        exercisesToUpdate.setEstimatedTime(exerciseDto.getEstimatedTime());
-        exercisesToUpdate.setVideoPath(exerciseDto.getVideoPath());
+    public ResponseEntity<Object> updateExercise(int id, ExercisesEntity exercisesEntity) {
+
+        ExercisesEntity exercisesToUpdate = exercisesRepository.getOne(id);
+        exercisesToUpdate.setExerciseName(exercisesEntity.getExerciseName());
+        exercisesToUpdate.setDifficultLevel(exercisesEntity.getDifficultLevel());
+        exercisesToUpdate.setEstimatedTime(exercisesEntity.getEstimatedTime());
+        exercisesToUpdate.setVideoPath(exercisesEntity.getVideoPath());
 
         try {
             exercisesRepository.save(exercisesToUpdate);
@@ -88,6 +78,72 @@ public class ExercisesServiceInit implements ExercisesService {
         catch (Exception e){
             return new ResponseEntity<>(e,HttpStatus.NOT_ACCEPTABLE);
         }
+    }
+
+    @Override
+    public ResponseEntity<List<ExercisesEntity>> getExercisesByName(String exerciseName) {
+
+        try {
+            List<ExercisesEntity> exercisesEntityList = new ArrayList<>(exercisesRepository.findByExerciseName(exerciseName));
+        return new ResponseEntity<>(exercisesEntityList, HttpStatus.OK);
+        }
+        catch (Exception e) {
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @Override
+    public List<ExercisesEntity> getRandomExercises(RandomExercisesEntityCriteria randomExercisesEntityCriteria) {
+
+        List<ExercisesEntity> allExercisesList = exercisesRepository.findAll();
+        List<ExercisesEntity> result = new ArrayList<>();
+
+        int maxExerciseId = getMaxExercisesId(allExercisesList);
+
+        for (int i = 0; i < randomExercisesEntityCriteria.getNumberOfExercises(); i++) {
+            int randomNum = getRandomNum(usedRandomNumbers, maxExerciseId);
+
+            for (ExercisesEntity entity: allExercisesList) {
+
+                if (entity.getExerciseId() == randomNum) {
+                    result.add(entity);
+                }
+            }
+
+        }
+
+        usedRandomNumbers.clear();
+
+        return result;
+    }
+
+    private int getRandomNum(List<Integer> usedRandomNumbers, int maxExerciseId) {
+        int randomNum = ThreadLocalRandom.current().nextInt(1, maxExerciseId + 1);
+
+        for (int number: usedRandomNumbers) {
+            if (number == randomNum){
+                getRandomNum( usedRandomNumbers,  maxExerciseId);
+            }
+            else {
+                usedRandomNumbers.add(number);
+            }
+        }
+
+        return randomNum;
+    }
+
+    private int getMaxExercisesId(List<ExercisesEntity> allExercisesList) {
+        ExercisesEntity exercisesEntity = new ExercisesEntity();
+
+        for (ExercisesEntity ex: allExercisesList) {
+
+            if (exercisesEntity.getExerciseId() < ex.getExerciseId()){
+                exercisesEntity.setExerciseId(ex.getExerciseId());
+            }
+        }
+
+        return exercisesEntity.getExerciseId();
     }
 
 }

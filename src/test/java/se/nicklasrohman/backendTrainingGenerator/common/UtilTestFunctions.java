@@ -1,7 +1,7 @@
 package se.nicklasrohman.backendTrainingGenerator.common;
 
 import se.nicklasrohman.backendTrainingGenerator.dto.ExerciseDto;
-import se.nicklasrohman.backendTrainingGenerator.service.entity.ExercisesEntity;
+import se.nicklasrohman.backendTrainingGenerator.entity.ExercisesEntity;
 
 public class UtilTestFunctions {
 

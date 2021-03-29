@@ -4,12 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import se.nicklasrohman.backendTrainingGenerator.controller.ExercisesController;
-import se.nicklasrohman.backendTrainingGenerator.dto.ExerciseDto;
+import se.nicklasrohman.backendTrainingGenerator.entity.ExercisesEntity;
+import se.nicklasrohman.backendTrainingGenerator.entity.RandomExercisesEntityCriteria;
 import se.nicklasrohman.backendTrainingGenerator.service.ExercisesService;
-import se.nicklasrohman.backendTrainingGenerator.service.entity.ExercisesEntity;
 
 import java.util.List;
 
@@ -21,58 +21,74 @@ public class ExercisesControllerInit implements ExercisesController {
 
     @Override
     public ResponseEntity<Object> getAllExercises() {
-        List<ExercisesEntity> exercisesEntityList = exercisesService.getAllExercises();
 
-        return new ResponseEntity<>(exercisesEntityList, HttpStatus.OK);
+        try{
+            List<ExercisesEntity> exercisesEntityList = exercisesService.getAllExercises();
+        if (exercisesEntityList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+            return new ResponseEntity<>(exercisesEntityList, HttpStatus.OK);
+        }
+        catch (Exception e){
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @Override
-    public ResponseEntity<ExerciseDto> getExerciseById(@PathVariable int id) {
+    public ResponseEntity<ExercisesEntity> getExerciseById(@PathVariable int id) {
         return exercisesService.getExercisesById(id);
     }
 
     @Override
-    public ResponseEntity<Object> addNewExercise(
-            @RequestParam("exerciseName") String exerciseName,
-            @RequestParam("difficultLevel") int difficultLevel,
-            @RequestParam("estimatedTime") double estimatedTime,
-            @RequestParam("videoPath") String videoPath) {
+    public ResponseEntity<List<ExercisesEntity>> getExerciseByName(@PathVariable String exerciseName) {
 
-        ExerciseDto exerciseDto = new ExerciseDto();
-        exerciseDto.setExerciseName(exerciseName);
-        exerciseDto.setDifficultLevel(difficultLevel);
-        exerciseDto.setEstimatedTime(estimatedTime);
-        exerciseDto.setVideoPath(videoPath);
+        return exercisesService.getExercisesByName(exerciseName);
 
-        return exercisesService.addExercise(exerciseDto);
+    }
+
+    @Override
+    public ResponseEntity<Object> createNewExercise(
+            @RequestBody ExercisesEntity exercisesEntity) {
+
+        return exercisesService.createExercise(exercisesEntity);
     }
 
     @Override
     public ResponseEntity<Object> updateExercise(
-            @PathVariable("id") int id,
+            @PathVariable int id,
+            @RequestBody ExercisesEntity exercisesEntity) {
 
-            @RequestParam("exerciseName") String exerciseName,
-            @RequestParam("difficultLevel") int difficultLevel,
-            @RequestParam("estimatedTime") double estimatedTime,
-            @RequestParam("videoPath") String videoPath
-
-            ) {
-
-        ExerciseDto exerciseDto = new ExerciseDto();
-        exerciseDto.setId(id);
-        exerciseDto.setExerciseName(exerciseName);
-        exerciseDto.setDifficultLevel(difficultLevel);
-        exerciseDto.setEstimatedTime(estimatedTime);
-        exerciseDto.setVideoPath(videoPath);
-
-        return exercisesService.updateExercise(exerciseDto);
+        return exercisesService.updateExercise(id, exercisesEntity);
 
     }
-
 
     @Override
     public ResponseEntity<Object> deleteExercise(@PathVariable int id) {
         return exercisesService.deleteExercise(id);
+    }
+
+    @Override
+    public ResponseEntity<Object> getRandomExercises(int numberOfExercises, int minDifficulty, int maxDifficulty, double minEstimatedTime, double maxEstimatedTime) {
+        if (numberOfExercises <= 0) {
+            return new ResponseEntity<>("Number of exercises must be more then 0",HttpStatus.NOT_ACCEPTABLE);
+        }
+        else if (numberOfExercises >= 100) {
+            return new ResponseEntity<>("Number of exercises must be less then 100",HttpStatus.NOT_ACCEPTABLE);
+        }
+
+        RandomExercisesEntityCriteria randomExercisesEntityCriteria = new RandomExercisesEntityCriteria();
+        randomExercisesEntityCriteria.setNumberOfExercises(numberOfExercises);
+        randomExercisesEntityCriteria.setMinDifficulty(minDifficulty);
+        randomExercisesEntityCriteria.setMaxDifficulty(maxDifficulty);
+        randomExercisesEntityCriteria.setMinEstimatedTime(minEstimatedTime);
+        randomExercisesEntityCriteria.setMaxEstimatedTim(maxEstimatedTime);
+
+        List<ExercisesEntity> exercisesEntityList = exercisesService.getRandomExercises(randomExercisesEntityCriteria);
+
+        if (exercisesEntityList.isEmpty()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(exercisesEntityList, HttpStatus.OK);
     }
 
 }

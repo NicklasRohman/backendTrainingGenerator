@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import se.nicklasrohman.backendTrainingGenerator.common.UtilTestFunctions;
 import se.nicklasrohman.backendTrainingGenerator.dto.ExerciseDto;
 import se.nicklasrohman.backendTrainingGenerator.repository.ExercisesRepository;
-import se.nicklasrohman.backendTrainingGenerator.service.entity.ExercisesEntity;
+import se.nicklasrohman.backendTrainingGenerator.entity.ExercisesEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,25 +41,25 @@ class ExercisesServiceInitTest {
     @Test
     void testGetExercisesById() {
 
-        ResponseEntity<ExerciseDto> expected = new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        ResponseEntity<ExercisesEntity> expected = new ResponseEntity<>(HttpStatus.NO_CONTENT);
 
-        ResponseEntity<ExerciseDto> result = exercisesServiceInit.getExercisesById(0);
+        ResponseEntity<ExercisesEntity> result = exercisesServiceInit.getExercisesById(0);
         Assertions.assertEquals(expected, result);
     }
 
     @Test
     void testAddExercise() {
         ResponseEntity<ExerciseDto> expected = new ResponseEntity<>(HttpStatus.OK);
-        ResponseEntity<Object> result = exercisesServiceInit.addExercise(new ExerciseDto());
+        ResponseEntity<Object> result = exercisesServiceInit.createExercise(new ExercisesEntity());
         Assertions.assertEquals(expected, result);
     }
 
     @Test
     void testUpdateExercise() {
-        ExerciseDto exerciseDto = UtilTestFunctions.createExerciseDto();
-        when(exercisesRepository.getOne(exerciseDto.getId())).thenReturn(UtilTestFunctions.createExerciseEntity());
+        ExercisesEntity exercisesEntity = UtilTestFunctions.createExerciseEntity();
+        when(exercisesRepository.getOne(exercisesEntity.getExerciseId())).thenReturn(exercisesEntity);
         ResponseEntity<ExerciseDto> expected = new ResponseEntity<>(HttpStatus.OK);
-        ResponseEntity<Object> result = exercisesServiceInit.updateExercise(exerciseDto);
+        ResponseEntity<Object> result = exercisesServiceInit.updateExercise(exercisesEntity.getExerciseId(),exercisesEntity);
         Assertions.assertEquals(expected, result);
     }
 

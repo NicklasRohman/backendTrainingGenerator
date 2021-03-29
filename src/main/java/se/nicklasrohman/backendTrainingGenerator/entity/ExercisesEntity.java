@@ -1,4 +1,4 @@
-package se.nicklasrohman.backendTrainingGenerator.service.entity;
+package se.nicklasrohman.backendTrainingGenerator.entity;
 
 import lombok.Data;
 
@@ -13,12 +13,16 @@ public class ExercisesEntity {
     @Column(name = "exercise_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     int exerciseId;
+
     @Column(name = "exercise_name")
     String exerciseName;
+
     @Column(name = "difficult_level")
     int difficultLevel;
+
     @Column(name = "estimated_time")
     double estimatedTime;
+
     @Column(name = "video_path")
     String videoPath;
 
