@@ -14,4 +14,5 @@ public class ExerciseDto {
     int difficultLevel;
     double estimatedTime;
     String videoPath;
+    String description;
 }

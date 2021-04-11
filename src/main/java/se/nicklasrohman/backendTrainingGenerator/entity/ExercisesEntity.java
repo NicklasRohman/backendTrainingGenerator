@@ -26,4 +26,7 @@ public class ExercisesEntity {
     @Column(name = "video_path")
     String videoPath;
 
+    @Column(name = "description")
+    String description;
+
 }

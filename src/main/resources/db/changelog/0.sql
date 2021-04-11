@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS training_database.training(
     difficult_level int(10) NOT NULL DEFAULT 1,
     estimated_time double,
     video_path varchar(255),
+    description varchar(500),
     PRIMARY KEY (exercise_id)
 )
 engine=innodb;
