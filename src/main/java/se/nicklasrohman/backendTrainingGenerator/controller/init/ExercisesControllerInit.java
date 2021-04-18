@@ -11,6 +11,7 @@ import se.nicklasrohman.backendTrainingGenerator.entity.ExercisesEntity;
 import se.nicklasrohman.backendTrainingGenerator.entity.RandomExercisesEntityCriteria;
 import se.nicklasrohman.backendTrainingGenerator.service.ExercisesService;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -48,7 +49,7 @@ public class ExercisesControllerInit implements ExercisesController {
 
     @Override
     public ResponseEntity<Object> createNewExercise(
-            @RequestBody ExercisesEntity exercisesEntity) {
+           @Valid @RequestBody ExercisesEntity exercisesEntity) {
 
         return exercisesService.createExercise(exercisesEntity);
     }
