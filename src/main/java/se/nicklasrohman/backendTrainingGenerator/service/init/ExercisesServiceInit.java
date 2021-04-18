@@ -10,6 +10,7 @@ import se.nicklasrohman.backendTrainingGenerator.repository.ExercisesRepository;
 import se.nicklasrohman.backendTrainingGenerator.service.ExercisesService;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ThreadLocalRandom;
@@ -42,11 +43,10 @@ public class ExercisesServiceInit implements ExercisesService {
     public ResponseEntity<Object> createExercise(ExercisesEntity exercisesEntity) {
 
         try {
-        exercisesRepository.save(exercisesEntity);
+            exercisesRepository.save(exercisesEntity);
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(e,HttpStatus.NOT_IMPLEMENTED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.NOT_IMPLEMENTED);
         }
     }
 
@@ -62,9 +62,8 @@ public class ExercisesServiceInit implements ExercisesService {
         try {
             exercisesRepository.save(exercisesToUpdate);
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(e,HttpStatus.NOT_MODIFIED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.NOT_MODIFIED);
         }
     }
 
@@ -74,9 +73,8 @@ public class ExercisesServiceInit implements ExercisesService {
         try {
             exercisesRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
-        }
-        catch (Exception e){
-            return new ResponseEntity<>(e,HttpStatus.NOT_ACCEPTABLE);
+        } catch (Exception e) {
+            return new ResponseEntity<>(e, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
@@ -85,9 +83,8 @@ public class ExercisesServiceInit implements ExercisesService {
 
         try {
             List<ExercisesEntity> exercisesEntityList = new ArrayList<>(exercisesRepository.findByExerciseName(exerciseName));
-        return new ResponseEntity<>(exercisesEntityList, HttpStatus.OK);
-        }
-        catch (Exception e) {
+            return new ResponseEntity<>(exercisesEntityList, HttpStatus.OK);
+        } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
@@ -104,10 +101,11 @@ public class ExercisesServiceInit implements ExercisesService {
         for (int i = 0; i < randomExercisesEntityCriteria.getNumberOfExercises(); i++) {
             int randomNum = getRandomNum(usedRandomNumbers, maxExerciseId);
 
-            for (ExercisesEntity entity: allExercisesList) {
-
-                if (entity.getExerciseId() == randomNum) {
-                    result.add(entity);
+            for (Iterator<ExercisesEntity> it = allExercisesList.iterator(); it.hasNext(); ) {
+                ExercisesEntity exercisesEntity = it.next();
+                if (exercisesEntity.getExerciseId() == randomNum) {
+                    result.add(exercisesEntity);
+                    it.remove();
                 }
             }
 
@@ -121,11 +119,10 @@ public class ExercisesServiceInit implements ExercisesService {
     private int getRandomNum(List<Integer> usedRandomNumbers, int maxExerciseId) {
         int randomNum = ThreadLocalRandom.current().nextInt(1, maxExerciseId + 1);
 
-        for (int number: usedRandomNumbers) {
-            if (number == randomNum){
-                getRandomNum( usedRandomNumbers,  maxExerciseId);
-            }
-            else {
+        for (int number : usedRandomNumbers) {
+            if (number == randomNum) {
+                getRandomNum(usedRandomNumbers, maxExerciseId);
+            } else {
                 usedRandomNumbers.add(number);
             }
         }
@@ -136,9 +133,9 @@ public class ExercisesServiceInit implements ExercisesService {
     private int getMaxExercisesId(List<ExercisesEntity> allExercisesList) {
         ExercisesEntity exercisesEntity = new ExercisesEntity();
 
-        for (ExercisesEntity ex: allExercisesList) {
+        for (ExercisesEntity ex : allExercisesList) {
 
-            if (exercisesEntity.getExerciseId() < ex.getExerciseId()){
+            if (exercisesEntity.getExerciseId() < ex.getExerciseId()) {
                 exercisesEntity.setExerciseId(ex.getExerciseId());
             }
         }
