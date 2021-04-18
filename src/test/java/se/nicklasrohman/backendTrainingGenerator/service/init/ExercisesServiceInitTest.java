@@ -8,8 +8,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import se.nicklasrohman.backendTrainingGenerator.common.UtilTestFunctions;
-import se.nicklasrohman.backendTrainingGenerator.dto.ExerciseDto;
+import se.nicklasrohman.backendTrainingGenerator.mockData.MockEntity;
 import se.nicklasrohman.backendTrainingGenerator.repository.ExercisesRepository;
 import se.nicklasrohman.backendTrainingGenerator.entity.ExercisesEntity;
 
@@ -49,25 +48,28 @@ class ExercisesServiceInitTest {
 
     @Test
     void testAddExercise() {
-        ResponseEntity<ExerciseDto> expected = new ResponseEntity<>(HttpStatus.OK);
+        ResponseEntity<ExercisesEntity> expected = new ResponseEntity<>(HttpStatus.OK);
+
         ResponseEntity<Object> result = exercisesServiceInit.createExercise(new ExercisesEntity());
         Assertions.assertEquals(expected, result);
     }
 
     @Test
     void testUpdateExercise() {
-        ExercisesEntity exercisesEntity = UtilTestFunctions.createExerciseEntity();
+        ExercisesEntity exercisesEntity = MockEntity.createMockExercisesEntity();
         when(exercisesRepository.getOne(exercisesEntity.getExerciseId())).thenReturn(exercisesEntity);
-        ResponseEntity<ExerciseDto> expected = new ResponseEntity<>(HttpStatus.OK);
-        ResponseEntity<Object> result = exercisesServiceInit.updateExercise(exercisesEntity.getExerciseId(),exercisesEntity);
+
+        ResponseEntity<ExercisesEntity> expected = new ResponseEntity<>(HttpStatus.OK);
+
+        ResponseEntity<Object> result = exercisesServiceInit.updateExercise(exercisesEntity.getExerciseId(), exercisesEntity);
         Assertions.assertEquals(expected, result);
     }
 
     @Test
     void testDeleteExercise() {
         ResponseEntity<Object> expected = new ResponseEntity<>(HttpStatus.OK);
+
         ResponseEntity<Object> result = exercisesServiceInit.deleteExercise(0);
         Assertions.assertEquals(expected, result);
     }
-
 }
