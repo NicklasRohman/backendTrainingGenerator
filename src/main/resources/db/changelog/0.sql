@@ -6,9 +6,9 @@ CREATE TABLE IF NOT EXISTS training_database.training(
     exercise_id int UNSIGNED AUTO_INCREMENT NOT NULL,
     exercise_name varchar(255) NOT NULL,
     difficult_level int(10) NOT NULL DEFAULT 1,
-    estimated_time double,
-    video_path varchar(255),
-    description varchar(500),
+    estimated_time double NOT NULL DEFAULT 1,
+    video_path varchar(255) DEFAULT "",
+    description varchar(500) DEFAULT "",
     PRIMARY KEY (exercise_id)
 )
 engine=innodb;
