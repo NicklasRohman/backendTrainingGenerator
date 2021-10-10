@@ -94,25 +94,61 @@ public class ExercisesServiceInit implements ExercisesService {
     public List<ExercisesEntity> getRandomExercises(RandomExercisesEntityCriteria randomExercisesEntityCriteria) {
 
         List<ExercisesEntity> allExercisesList = exercisesRepository.findAll();
+        List<ExercisesEntity> passMaxMinDifficultyCheck = MaxMinDifficultyCheck(allExercisesList, randomExercisesEntityCriteria);
+        List<ExercisesEntity> passMaxMinTimeLimitCheck = MaxMinTimeLimitCheck(passMaxMinDifficultyCheck, randomExercisesEntityCriteria);
+
         List<ExercisesEntity> result = new ArrayList<>();
 
-        int maxExerciseId = getMaxExercisesId(allExercisesList);
+        List<Integer> allExercisesIds = collectAllExerciseIds(passMaxMinTimeLimitCheck);
+
 
         for (int i = 0; i < randomExercisesEntityCriteria.getNumberOfExercises(); i++) {
-            int randomNum = getRandomNum(usedRandomNumbers, maxExerciseId);
+            int randomNum = getRandomNum(usedRandomNumbers, passMaxMinDifficultyCheck.size());
 
-            for (Iterator<ExercisesEntity> it = allExercisesList.iterator(); it.hasNext(); ) {
+            for (Iterator<ExercisesEntity> it = passMaxMinDifficultyCheck.iterator(); it.hasNext(); ) {
                 ExercisesEntity exercisesEntity = it.next();
                 if (exercisesEntity.getExerciseId() == randomNum) {
                     result.add(exercisesEntity);
                     it.remove();
                 }
             }
-
         }
 
         usedRandomNumbers.clear();
 
+        return result;
+    }
+
+    private List<Integer> collectAllExerciseIds(List<ExercisesEntity> allExercises) {
+
+        List<Integer> result = new ArrayList<>();
+
+        for (ExercisesEntity entity: allExercises) {
+            result.add(entity.getExerciseId());
+        }
+        return result;
+    }
+
+    private List<ExercisesEntity> MaxMinTimeLimitCheck(List<ExercisesEntity> passMaxMinDifficultyCheck, RandomExercisesEntityCriteria randomExercisesEntityCriteria) {
+        List<ExercisesEntity> result = new ArrayList<>();
+        for (ExercisesEntity exercises: passMaxMinDifficultyCheck) {
+            if (randomExercisesEntityCriteria.getMinEstimatedTime() <= exercises.getEstimatedTime()
+                    && randomExercisesEntityCriteria.getMaxEstimatedTim() >= exercises.getEstimatedTime()) {
+                result.add(exercises);
+            }
+        }
+        return result;
+    }
+
+    private List<ExercisesEntity> MaxMinDifficultyCheck(List<ExercisesEntity> allExercisesList, RandomExercisesEntityCriteria randomExercisesEntityCriteria) {
+
+        List<ExercisesEntity> result = new ArrayList<>();
+        for (ExercisesEntity exercises: allExercisesList) {
+            if (randomExercisesEntityCriteria.getMinDifficulty() <= exercises.getDifficultLevel()
+                    && randomExercisesEntityCriteria.getMaxDifficulty() >= exercises.getDifficultLevel()) {
+                result.add(exercises);
+            }
+        }
         return result;
     }
 
@@ -129,18 +165,4 @@ public class ExercisesServiceInit implements ExercisesService {
 
         return randomNum;
     }
-
-    private int getMaxExercisesId(List<ExercisesEntity> allExercisesList) {
-        ExercisesEntity exercisesEntity = new ExercisesEntity();
-
-        for (ExercisesEntity ex : allExercisesList) {
-
-            if (exercisesEntity.getExerciseId() < ex.getExerciseId()) {
-                exercisesEntity.setExerciseId(ex.getExerciseId());
-            }
-        }
-
-        return exercisesEntity.getExerciseId();
-    }
-
 }
