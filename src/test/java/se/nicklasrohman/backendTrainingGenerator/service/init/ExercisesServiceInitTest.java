@@ -8,9 +8,10 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import se.nicklasrohman.backendTrainingGenerator.entity.ExercisesEntity;
+import se.nicklasrohman.backendTrainingGenerator.entity.RandomExercisesEntityCriteria;
 import se.nicklasrohman.backendTrainingGenerator.mockData.MockEntity;
 import se.nicklasrohman.backendTrainingGenerator.repository.ExercisesRepository;
-import se.nicklasrohman.backendTrainingGenerator.entity.ExercisesEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +31,11 @@ class ExercisesServiceInitTest {
 
     @Test
     void testGetAllExercises() {
-        List<ExercisesEntity> emptyList = new ArrayList<>();
-        when(exercisesServiceInit.getAllExercises()).thenReturn(emptyList);
+        List<ExercisesEntity> exercisesEntityList = MockEntity.mockExercisesEntity(5,1,1.0);
+        when(exercisesServiceInit.getAllExercises()).thenReturn(exercisesEntityList);
 
         List<ExercisesEntity> result = exercisesServiceInit.getAllExercises();
-        Assertions.assertEquals(emptyList, result);
+        Assertions.assertEquals(exercisesEntityList, result);
     }
 
     @Test
@@ -56,7 +57,7 @@ class ExercisesServiceInitTest {
 
     @Test
     void testUpdateExercise() {
-        ExercisesEntity exercisesEntity = MockEntity.createMockExercisesEntity();
+        ExercisesEntity exercisesEntity = MockEntity.createMockExercisesEntity(1,1.0);
         when(exercisesRepository.getOne(exercisesEntity.getExerciseId())).thenReturn(exercisesEntity);
 
         ResponseEntity<ExercisesEntity> expected = new ResponseEntity<>(HttpStatus.OK);
@@ -71,5 +72,35 @@ class ExercisesServiceInitTest {
 
         ResponseEntity<Object> result = exercisesServiceInit.deleteExercise(0);
         Assertions.assertEquals(expected, result);
+    }
+
+    @Test
+    void shouldReturnExerciseWithinDifficultLevel() {
+
+        List<ExercisesEntity> exercisesEntityList = new ArrayList<>();
+
+        ExercisesEntity exercisesEntity = MockEntity.createMockExercisesEntity(1, 1.0);
+        exercisesEntityList.add(exercisesEntity);
+
+        ExercisesEntity exercisesEntity2 = MockEntity.createMockExercisesEntity(5, 1.0);
+        exercisesEntityList.add(exercisesEntity2);
+
+        ExercisesEntity exercisesEntity3 = MockEntity.createMockExercisesEntity(10, 1.0);
+        exercisesEntityList.add(exercisesEntity3);
+
+        when(exercisesRepository.findAll()).thenReturn(exercisesEntityList);
+
+        RandomExercisesEntityCriteria randomExercisesEntityCriteria = new RandomExercisesEntityCriteria();
+        randomExercisesEntityCriteria.setNumberOfExercises(3);
+        randomExercisesEntityCriteria.setMaxDifficulty(7);
+        randomExercisesEntityCriteria.setMinDifficulty(3);
+        randomExercisesEntityCriteria.setMaxEstimatedTim(10);
+        randomExercisesEntityCriteria.setMinEstimatedTime(1);
+
+        List<ExercisesEntity> expected = new ArrayList<>();
+        expected.add(exercisesEntity2);
+
+        var result = exercisesServiceInit.getRandomExercises(randomExercisesEntityCriteria);
+        Assertions.assertEquals(expected.size(), result.size());
     }
 }

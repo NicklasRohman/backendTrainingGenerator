@@ -31,7 +31,7 @@ class ExercisesControllerInitTest {
     @Test
     void testGetAllExercises() {
 
-        ExercisesEntity exercisesEntity = MockEntity.createMockExercisesEntity();
+        ExercisesEntity exercisesEntity = MockEntity.createMockExercisesEntity(1,1.0);
 
         List<ExercisesEntity> exercisesEntityList = new ArrayList<>();
         exercisesEntityList.add(exercisesEntity);
@@ -47,7 +47,7 @@ class ExercisesControllerInitTest {
     @Test
     void testGetExerciseById() {
 
-        ExercisesEntity exercisesEntity = MockEntity.createMockExercisesEntity();
+        ExercisesEntity exercisesEntity = MockEntity.createMockExercisesEntity(1,1.0);
 
         when(exercisesService.getExercisesById(1)).thenReturn( new ResponseEntity<>(exercisesEntity, HttpStatus.OK));
 
@@ -63,7 +63,7 @@ class ExercisesControllerInitTest {
 
         ResponseEntity<Object> expected = new ResponseEntity<>(HttpStatus.OK);
 
-        ExercisesEntity exercisesEntity = MockEntity.createMockExercisesEntity();
+        ExercisesEntity exercisesEntity = MockEntity.createMockExercisesEntity(1,1.0);
 
         ResponseEntity<Object> result = exercisesControllerInit.createNewExercise(exercisesEntity);
         Assertions.assertEquals(expected, result);
