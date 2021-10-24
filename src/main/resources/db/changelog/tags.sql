@@ -9,10 +9,10 @@ CREATE TABLE IF NOT EXISTS training_database.tags(
 )
 engine=innodb;
 
---changeset nicklas.rohman:1 logicalFilePath:tags.sql
+--changeset nicklas.rohman:2 logicalFilePath:tags.sql
 --comment: adding exercise_tags table
 CREATE TABLE IF NOT EXISTS training_database.exercise_tags(
     exercise_id int NOT NULL,
-    tag_id int NOT NULL,
+    tag_id int NOT NULL
     )
 engine=innodb;

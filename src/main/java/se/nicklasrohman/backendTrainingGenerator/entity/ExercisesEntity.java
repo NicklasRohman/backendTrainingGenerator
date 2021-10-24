@@ -37,4 +37,6 @@ public class ExercisesEntity {
     @Column(name = "description")
     String description;
 
+    //@ManyToMany
+    //List<Tags> tagsList;
 }
