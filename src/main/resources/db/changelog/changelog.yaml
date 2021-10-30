@@ -3,5 +3,5 @@ databaseChangeLog:
       file: 0.sql
       relativeToChangelogFile: true
   - include:
-      file: tags.sql
+      file: 1.sql
       relativeToChangelogFile: true
