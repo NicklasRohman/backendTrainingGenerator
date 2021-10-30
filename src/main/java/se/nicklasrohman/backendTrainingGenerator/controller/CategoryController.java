@@ -6,27 +6,27 @@ import se.nicklasrohman.backendTrainingGenerator.entity.CategoryEntity;
 
 import java.util.List;
 
-@RequestMapping("/tag")
+@RequestMapping("/category")
 public interface CategoryController {
 
     @GetMapping("/all")
-    ResponseEntity<Object> getAllTags();
+    ResponseEntity<Object> getAllCategory();
 
     @GetMapping("/{id}")
-    ResponseEntity<CategoryEntity> getTagById(@PathVariable int id);
+    ResponseEntity<CategoryEntity> getCategoryById(@PathVariable int id);
 
     @GetMapping("/search/{exerciseName}")
-    ResponseEntity<List<CategoryEntity>> getTagByName(@PathVariable String tagName);
+    ResponseEntity<List<CategoryEntity>> getCategoryByName(@PathVariable String categoryName);
 
     @PostMapping("/create")
-    ResponseEntity<Object> createNewTag(@RequestBody CategoryEntity categoryEntity);
+    ResponseEntity<Object> createNewCategory(@RequestBody CategoryEntity categoryEntity);
 
     @PutMapping("/update/{id}")
-    ResponseEntity<Object> updateTag(
+    ResponseEntity<Object> updateCategory(
             @PathVariable int id,
             @RequestBody CategoryEntity categoryEntity);
 
     @DeleteMapping("/delete/{id}")
-    ResponseEntity<Object> deleteTag(@PathVariable int id);
+    ResponseEntity<Object> deleteCategory(@PathVariable int id);
 
 }

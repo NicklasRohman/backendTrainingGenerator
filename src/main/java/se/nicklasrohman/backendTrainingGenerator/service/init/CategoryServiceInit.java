@@ -20,22 +20,22 @@ public class CategoryServiceInit implements CategoryService {
     CategoryRepository categoryRepository;
 
     @Override
-    public List<CategoryEntity> getAllTags() {
+    public List<CategoryEntity> getAllCategory() {
         return categoryRepository.findAll();
     }
 
     @Override
-    public ResponseEntity<CategoryEntity> getTagById(int id) {
+    public ResponseEntity<CategoryEntity> getCategoryById(int id) {
 
-        Optional<CategoryEntity> tagsEntityOptional = categoryRepository.findById(id);
+        Optional<CategoryEntity> categoryEntityOptional = categoryRepository.findById(id);
 
-        return tagsEntityOptional.map(tagsEntity ->
-                        new ResponseEntity<>(tagsEntity, HttpStatus.OK))
+        return categoryEntityOptional.map(CategoryEntity ->
+                        new ResponseEntity<>(CategoryEntity, HttpStatus.OK))
                 .orElseGet(() -> new ResponseEntity<>(HttpStatus.NO_CONTENT));
     }
 
     @Override
-    public ResponseEntity<Object> createTag(CategoryEntity categoryEntity) {
+    public ResponseEntity<Object> createCategory(CategoryEntity categoryEntity) {
         try {
             categoryRepository.save(categoryEntity);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -45,12 +45,12 @@ public class CategoryServiceInit implements CategoryService {
     }
 
     @Override
-    public ResponseEntity<Object> updateTag(int id, CategoryEntity categoryEntity) {
-        CategoryEntity tagsToUpdate = categoryRepository.getOne(id);
-        tagsToUpdate.setTagName(categoryEntity.getTagName());
+    public ResponseEntity<Object> updateCategory(int id, CategoryEntity categoryEntity) {
+        CategoryEntity categoryToUpdate = categoryRepository.getOne(id);
+        categoryToUpdate.setCategoryName(categoryEntity.getCategoryName());
 
         try {
-            categoryRepository.save(tagsToUpdate);
+            categoryRepository.save(categoryToUpdate);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.NOT_MODIFIED);
@@ -58,7 +58,7 @@ public class CategoryServiceInit implements CategoryService {
     }
 
     @Override
-    public ResponseEntity<Object> deleteTag(int id) {
+    public ResponseEntity<Object> deleteCategory(int id) {
         try {
             categoryRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
@@ -68,9 +68,9 @@ public class CategoryServiceInit implements CategoryService {
     }
 
     @Override
-    public ResponseEntity<List<CategoryEntity>> getTagByName(String TagName) {
+    public ResponseEntity<List<CategoryEntity>> getCategoryByName(String categoryName) {
         try {
-            List<CategoryEntity> categoryEntityList = new ArrayList<>(categoryRepository.findByTagName(TagName));
+            List<CategoryEntity> categoryEntityList = new ArrayList<>(categoryRepository.findByCategoryName(categoryName));
             return new ResponseEntity<>(categoryEntityList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

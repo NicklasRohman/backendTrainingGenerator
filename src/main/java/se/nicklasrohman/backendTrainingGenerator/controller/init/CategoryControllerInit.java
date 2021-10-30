@@ -20,10 +20,10 @@ public class CategoryControllerInit implements CategoryController {
     CategoryService categoryService;
 
     @Override
-    public ResponseEntity<Object> getAllTags() {
+    public ResponseEntity<Object> getAllCategory() {
 
         try{
-            List<CategoryEntity> categoryEntityList = categoryService.getAllTags();
+            List<CategoryEntity> categoryEntityList = categoryService.getAllCategory();
             if (categoryEntityList.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NO_CONTENT);
             }
@@ -36,27 +36,27 @@ public class CategoryControllerInit implements CategoryController {
     }
 
     @Override
-    public ResponseEntity<CategoryEntity> getTagById(@PathVariable int id) {
-        return categoryService.getTagById(id);
+    public ResponseEntity<CategoryEntity> getCategoryById(@PathVariable int id) {
+        return categoryService.getCategoryById(id);
     }
 
     @Override
-    public ResponseEntity<List<CategoryEntity>> getTagByName(@PathVariable String tagName) {
-        return categoryService.getTagByName(tagName);
+    public ResponseEntity<List<CategoryEntity>> getCategoryByName(@PathVariable String categoryName) {
+        return categoryService.getCategoryByName(categoryName);
     }
 
     @Override
-    public ResponseEntity<Object> createNewTag(@Valid @RequestBody CategoryEntity categoryEntity) {
-        return categoryService.createTag(categoryEntity);
+    public ResponseEntity<Object> createNewCategory(@Valid @RequestBody CategoryEntity categoryEntity) {
+        return categoryService.createCategory(categoryEntity);
     }
 
     @Override
-    public ResponseEntity<Object> updateTag(@PathVariable int id, @RequestBody CategoryEntity categoryEntity) {
-        return categoryService.updateTag(id, categoryEntity);
+    public ResponseEntity<Object> updateCategory(@PathVariable int id, @RequestBody CategoryEntity categoryEntity) {
+        return categoryService.updateCategory(id, categoryEntity);
     }
 
     @Override
-    public ResponseEntity<Object> deleteTag(@PathVariable int id) {
-        return categoryService.deleteTag(id);
+    public ResponseEntity<Object> deleteCategory(@PathVariable int id) {
+        return categoryService.deleteCategory(id);
     }
 }

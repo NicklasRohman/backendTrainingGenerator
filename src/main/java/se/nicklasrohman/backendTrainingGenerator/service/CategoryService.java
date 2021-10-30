@@ -8,15 +8,15 @@ import java.util.List;
 
 public interface CategoryService {
 
-    List<CategoryEntity> getAllTags();
+    List<CategoryEntity> getAllCategory();
 
-    ResponseEntity<CategoryEntity> getTagById(int id);
+    ResponseEntity<CategoryEntity> getCategoryById(int id);
 
-    ResponseEntity<Object> createTag(CategoryEntity categoryEntity);
+    ResponseEntity<Object> createCategory(CategoryEntity categoryEntity);
 
-    ResponseEntity<Object> updateTag(int id, CategoryEntity categoryEntity);
+    ResponseEntity<Object> updateCategory(int id, CategoryEntity categoryEntity);
 
-    ResponseEntity<Object> deleteTag(int id);
+    ResponseEntity<Object> deleteCategory(int id);
 
-    ResponseEntity<List<CategoryEntity>> getTagByName(String TagName);
+    ResponseEntity<List<CategoryEntity>> getCategoryByName(String categoryName);
 }

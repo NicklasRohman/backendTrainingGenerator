@@ -96,7 +96,7 @@ public class ExercisesServiceInit implements ExercisesService {
         List<ExercisesEntity> allExercisesList = exercisesRepository.findAll();
         List<ExercisesEntity> passMaxMinDifficultyCheck = MaxMinDifficultyCheck(allExercisesList, randomExercisesEntityCriteria);
         List<ExercisesEntity> passMaxMinTimeLimitCheck = MaxMinTimeLimitCheck(passMaxMinDifficultyCheck, randomExercisesEntityCriteria);
-        List<ExercisesEntity> passTagCheck = tagCheck(passMaxMinTimeLimitCheck);
+        List<ExercisesEntity> passCategoryCheck = categoryCheck(passMaxMinTimeLimitCheck);
 
         List<ExercisesEntity> result = new ArrayList<>();
 
@@ -121,14 +121,10 @@ public class ExercisesServiceInit implements ExercisesService {
         return result;
     }
 
-    private List<ExercisesEntity> tagCheck(List<ExercisesEntity> passMaxMinTimeLimitCheck) {
+    private List<ExercisesEntity> categoryCheck(List<ExercisesEntity> passMaxMinTimeLimitCheck) {
         List<ExercisesEntity> result = new ArrayList<>();
 
-        for (ExercisesEntity entity: passMaxMinTimeLimitCheck) {
-
-        }
-
-        return result;
+        return passMaxMinTimeLimitCheck;
     }
 
 

@@ -7,19 +7,19 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name="tags")
+@Table(name="category")
 public class CategoryEntity {
 
     @Id
-    @Column(name = "tag_id")
+    @Column(name = "category_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    int tagId;
+    int categoryId;
 
-    @Column(name = "tag_name")
-    String tagName;
+    @Column(name = "category_name")
+    String categoryName;
 
-    @Column(name = "tag_description")
-    String tagDescription;
+    @Column(name = "category_description")
+    String categoryDescription;
 
     @ManyToMany
     List<ExercisesEntity> exercisesEntityList;

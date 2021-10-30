@@ -40,8 +40,8 @@ public class ExercisesEntity {
 
     @ManyToMany
     @JoinTable(
-            name = "tag_name",
+            name = "category_name",
             joinColumns = @JoinColumn(name = "exercise_id"),
-            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+            inverseJoinColumns = @JoinColumn(name = "category_id"))
     List<CategoryEntity> categoryEntityList;
 }
