@@ -7,6 +7,7 @@ import javax.validation.constraints.DecimalMax;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import java.util.List;
 
 @Data
 @Entity
@@ -37,6 +38,6 @@ public class ExercisesEntity {
     @Column(name = "description")
     String description;
 
-    //@ManyToMany
-    //List<Tags> tagsList;
+    @ManyToMany
+    List<TagsEntity> tagsEntityList;
 }
