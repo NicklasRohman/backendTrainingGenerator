@@ -8,7 +8,7 @@ import java.util.List;
 @Data
 @Entity
 @Table(name="tags")
-public class TagsEntity {
+public class CategoryEntity {
 
     @Id
     @Column(name = "tag_id")
@@ -17,6 +17,9 @@ public class TagsEntity {
 
     @Column(name = "tag_name")
     String tagName;
+
+    @Column(name = "tag_description")
+    String tagDescription;
 
     @ManyToMany
     List<ExercisesEntity> exercisesEntityList;

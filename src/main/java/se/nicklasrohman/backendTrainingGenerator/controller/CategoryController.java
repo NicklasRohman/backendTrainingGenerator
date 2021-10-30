@@ -2,29 +2,29 @@ package se.nicklasrohman.backendTrainingGenerator.controller;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import se.nicklasrohman.backendTrainingGenerator.entity.TagsEntity;
+import se.nicklasrohman.backendTrainingGenerator.entity.CategoryEntity;
 
 import java.util.List;
 
 @RequestMapping("/tag")
-public interface TagsController{
+public interface CategoryController {
 
     @GetMapping("/all")
     ResponseEntity<Object> getAllTags();
 
     @GetMapping("/{id}")
-    ResponseEntity<TagsEntity> getTagById(@PathVariable int id);
+    ResponseEntity<CategoryEntity> getTagById(@PathVariable int id);
 
     @GetMapping("/search/{exerciseName}")
-    ResponseEntity<List<TagsEntity>> getTagByName(@PathVariable String tagName);
+    ResponseEntity<List<CategoryEntity>> getTagByName(@PathVariable String tagName);
 
     @PostMapping("/create")
-    ResponseEntity<Object> createNewTag(@RequestBody TagsEntity tagsEntity);
+    ResponseEntity<Object> createNewTag(@RequestBody CategoryEntity categoryEntity);
 
     @PutMapping("/update/{id}")
     ResponseEntity<Object> updateTag(
             @PathVariable int id,
-            @RequestBody TagsEntity tagsEntity);
+            @RequestBody CategoryEntity categoryEntity);
 
     @DeleteMapping("/delete/{id}")
     ResponseEntity<Object> deleteTag(@PathVariable int id);

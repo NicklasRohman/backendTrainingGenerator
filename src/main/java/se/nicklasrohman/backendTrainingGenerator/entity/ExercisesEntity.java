@@ -39,5 +39,9 @@ public class ExercisesEntity {
     String description;
 
     @ManyToMany
-    List<TagsEntity> tagsEntityList;
+    @JoinTable(
+            name = "tag_name",
+            joinColumns = @JoinColumn(name = "exercise_id"),
+            inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    List<CategoryEntity> categoryEntityList;
 }

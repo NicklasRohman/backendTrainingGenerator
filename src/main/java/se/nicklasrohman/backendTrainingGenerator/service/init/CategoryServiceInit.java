@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import se.nicklasrohman.backendTrainingGenerator.entity.TagsEntity;
-import se.nicklasrohman.backendTrainingGenerator.repository.TagsRepository;
-import se.nicklasrohman.backendTrainingGenerator.service.TagsService;
+import se.nicklasrohman.backendTrainingGenerator.entity.CategoryEntity;
+import se.nicklasrohman.backendTrainingGenerator.repository.CategoryRepository;
+import se.nicklasrohman.backendTrainingGenerator.service.CategoryService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,20 +14,20 @@ import java.util.Optional;
 
 
 @Service
-public class TagsServiceInit implements TagsService {
+public class CategoryServiceInit implements CategoryService {
 
     @Autowired
-    TagsRepository tagsRepository;
+    CategoryRepository categoryRepository;
 
     @Override
-    public List<TagsEntity> getAllTags() {
-        return tagsRepository.findAll();
+    public List<CategoryEntity> getAllTags() {
+        return categoryRepository.findAll();
     }
 
     @Override
-    public ResponseEntity<TagsEntity> getTagById(int id) {
+    public ResponseEntity<CategoryEntity> getTagById(int id) {
 
-        Optional<TagsEntity> tagsEntityOptional = tagsRepository.findById(id);
+        Optional<CategoryEntity> tagsEntityOptional = categoryRepository.findById(id);
 
         return tagsEntityOptional.map(tagsEntity ->
                         new ResponseEntity<>(tagsEntity, HttpStatus.OK))
@@ -35,9 +35,9 @@ public class TagsServiceInit implements TagsService {
     }
 
     @Override
-    public ResponseEntity<Object> createTag(TagsEntity tagsEntity) {
+    public ResponseEntity<Object> createTag(CategoryEntity categoryEntity) {
         try {
-            tagsRepository.save(tagsEntity);
+            categoryRepository.save(categoryEntity);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.NOT_IMPLEMENTED);
@@ -45,12 +45,12 @@ public class TagsServiceInit implements TagsService {
     }
 
     @Override
-    public ResponseEntity<Object> updateTag(int id, TagsEntity tagsEntity) {
-        TagsEntity tagsToUpdate = tagsRepository.getOne(id);
-        tagsToUpdate.setTagName(tagsEntity.getTagName());
+    public ResponseEntity<Object> updateTag(int id, CategoryEntity categoryEntity) {
+        CategoryEntity tagsToUpdate = categoryRepository.getOne(id);
+        tagsToUpdate.setTagName(categoryEntity.getTagName());
 
         try {
-            tagsRepository.save(tagsToUpdate);
+            categoryRepository.save(tagsToUpdate);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.NOT_MODIFIED);
@@ -60,7 +60,7 @@ public class TagsServiceInit implements TagsService {
     @Override
     public ResponseEntity<Object> deleteTag(int id) {
         try {
-            tagsRepository.deleteById(id);
+            categoryRepository.deleteById(id);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(e, HttpStatus.NOT_ACCEPTABLE);
@@ -68,10 +68,10 @@ public class TagsServiceInit implements TagsService {
     }
 
     @Override
-    public ResponseEntity<List<TagsEntity>> getTagByName(String TagName) {
+    public ResponseEntity<List<CategoryEntity>> getTagByName(String TagName) {
         try {
-            List<TagsEntity> tagsEntityList = new ArrayList<>(tagsRepository.findByTagName(TagName));
-            return new ResponseEntity<>(tagsEntityList, HttpStatus.OK);
+            List<CategoryEntity> categoryEntityList = new ArrayList<>(categoryRepository.findByTagName(TagName));
+            return new ResponseEntity<>(categoryEntityList, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
         }
