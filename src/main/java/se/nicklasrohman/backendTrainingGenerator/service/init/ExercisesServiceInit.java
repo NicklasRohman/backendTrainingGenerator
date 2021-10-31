@@ -96,7 +96,7 @@ public class ExercisesServiceInit implements ExercisesService {
         List<ExercisesEntity> allExercisesList = exercisesRepository.findAll();
         List<ExercisesEntity> passMaxMinDifficultyCheck = MaxMinDifficultyCheck(allExercisesList, randomExercisesEntityCriteria);
         List<ExercisesEntity> passMaxMinTimeLimitCheck = MaxMinTimeLimitCheck(passMaxMinDifficultyCheck, randomExercisesEntityCriteria);
-        List<ExercisesEntity> passCategoryCheck = categoryCheck(passMaxMinTimeLimitCheck);
+        //List<ExercisesEntity> passCategoryCheck = categoryCheck(passMaxMinTimeLimitCheck);
 
         List<ExercisesEntity> result = new ArrayList<>();
 
@@ -162,7 +162,7 @@ public class ExercisesServiceInit implements ExercisesService {
     }
 
     private int getRandomNum(List<Integer> usedRandomNumbers, int maxExerciseId) {
-        int randomNum = ThreadLocalRandom.current().nextInt(1, maxExerciseId);
+        int randomNum = ThreadLocalRandom.current().nextInt(0, maxExerciseId);
 
         for (int number : usedRandomNumbers) {
             if (number == randomNum) {

@@ -3,9 +3,9 @@ package se.nicklasrohman.backendTrainingGenerator.controller.init;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import se.nicklasrohman.backendTrainingGenerator.controller.CategoryController;
 import se.nicklasrohman.backendTrainingGenerator.entity.CategoryEntity;
 import se.nicklasrohman.backendTrainingGenerator.service.CategoryService;
@@ -13,7 +13,7 @@ import se.nicklasrohman.backendTrainingGenerator.service.CategoryService;
 import javax.validation.Valid;
 import java.util.List;
 
-@Controller
+@RestController
 public class CategoryControllerInit implements CategoryController {
 
     @Autowired
